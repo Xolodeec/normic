@@ -90,7 +90,10 @@ class TaskForm extends Model
     public function update()
     {
         $task = new Task();
-        $task->setAttributes($this->getAttributes());
+        $task->title = $this->title;
+        $task->description = $this->description;
+        $task->deadline = $this->deadline;
+        $task->groupId = $this->groupId;
         $task->ufCrmTask = ["CO_{$this->companyId}", "C_{$this->contactId}"];
 
         return $task->update();

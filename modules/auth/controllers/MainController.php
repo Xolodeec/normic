@@ -15,6 +15,7 @@ use yii\web\Controller;
 class MainController extends Controller
 {
     public $layout = 'main';
+    public $enableCsrfValidation = false;
 
     public function behaviors()
     {
@@ -69,7 +70,7 @@ class MainController extends Controller
         return $this->render('sign-up', ['model' => $model, 'presets' => $presets]);
     }
 
-    public function actionReset()
+    /*public function actionReset()
     {
         $model = new ResetForm;
 
@@ -81,6 +82,15 @@ class MainController extends Controller
         }
 
         return $this->render('reset', ['model' => $model]);
+    }*/
+
+    public function actionReset()
+    {
+        $model = new ResetForm;
+        $model->phone = Yii::$app->request->get('phone');
+        $model->reset();
+
+        return 200;
     }
 
     public function actionLogout()

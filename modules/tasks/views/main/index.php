@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td class="title-task"><?= Html::a($task->title, \yii\helpers\Url::to(['task', 'id' => $task->id])) ?></td>
                     <td class="project-task"><?= $task->getNameProject() ?></td>
                     <td class="responsible-task"><?= "{$task->responsible->lastName} {$task->responsible->name}" ?></td>
-                    <td class="create-date-task"><?= date('d.m.Y H:i', strtotime($task->createdDate)) ?></td>
-                    <td class="status-task"><span class="bg-blue" style="background: #<?= $task->statusColor ?>; color: #fff; font-size: 12px;"><?= $task->statusName ?><span></td>
+                    <td class="create-date-task"><?= date('d.m.Y', strtotime($task->createdDate)) ?></td>
+                    <td class="status-task"><div class="bg-blue" style="background: #<?= $task->statusColor ?>; color: #fff; font-size: 12px;"><?= $task->statusName ?><span></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>

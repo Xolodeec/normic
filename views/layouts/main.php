@@ -38,7 +38,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <div class="row">
             <div class="col">
                 <div class="logo">
-                    <img src="/src/logo.svg" class="img-fluid">
+                    <a href="<?= \yii\helpers\Url::to('/') ?>"><img src="/src/logo.svg" class="img-fluid"></a>
                 </div>
             </div>
             <div class="col-auto d-flex align-items-center">
@@ -56,7 +56,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         <i class="fa-solid fa-house col-1"></i>
                     </div>
                     <div class="col">
-                        <a href="<?= \yii\helpers\Url::to('/') ?>">Главная</a>
+                        <a href="<?= \yii\helpers\Url::to('/') ?>">Цели и задачи</a>
                     </div>
                 </li>
                 <li class="row g-0">
@@ -101,7 +101,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <i class="fa-solid fa-house col-1"></i>
                         </div>
                         <div class="col">
-                            <a href="<?= \yii\helpers\Url::to('/') ?>">Главная</a>
+                            <a href="<?= \yii\helpers\Url::to('/') ?>">Цели и задачи</a>
                         </div>
                     </li>
                     <li class="row g-0">

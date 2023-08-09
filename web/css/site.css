@@ -357,6 +357,7 @@ input, textarea{
     font-size: 14px;
     padding: 15px 0;
     border-bottom: 1px solid #EAECF0;
+    word-wrap: break-word;
 }
 
 .comment article{
@@ -629,7 +630,7 @@ input, textarea{
     }
 
     #header .logo{
-        width: 20%;
+        width: 50%;
     }
 
     .wrapper-task{
@@ -638,6 +639,10 @@ input, textarea{
 
     .project-task, .responsible-task, .create-date-task{
         display: none;
+    }
+
+    .task-block{
+        margin-top: 25px;
     }
 }
 
@@ -665,6 +670,15 @@ input, textarea{
     margin-right: 7px !important;
 }
 
+.task-block article{
+    word-wrap: break-word;
+}
+
 .task-block article img{
     max-width: 100%;
 }
+
+.status-task{
+    text-align: center;
+}
+

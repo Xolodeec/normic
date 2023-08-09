@@ -31,7 +31,9 @@ class FilterForm extends Model
 
         $commands['get_tasks'] = $bitrix->buildCommand('tasks.task.list', [
             'order' => ['ID' => 'DESC'],
-            'filter' => [['UF_CRM_TASK' => ['CO_' . $companyId]]],
+            'filter' => [
+                'UF_CRM_TASK' => 'CO_' . $companyId,
+            ],
             'select' => collect(Task::mapFields())->keys()->toArray(),
             'start' => $model->page * 50,
         ]);

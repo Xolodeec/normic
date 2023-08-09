@@ -36,7 +36,6 @@ class CommentForm extends Model
         $bitrix = new Bitrix();
 
         return $bitrix->request('task.commentitem.add', ['taskId' => $this->taskId, 'fields' => [
-            'AUTHOR_ID' => 55,
             'POST_MESSAGE' => "{$this->message}\n\n #От {$user->lastName} {$user->name}",
         ]]);
     }

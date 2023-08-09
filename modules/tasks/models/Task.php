@@ -15,6 +15,7 @@ class Task extends \app\models\bitrix\tasks\Task
     public $_stages;
     public $_project;
     public $_checklist;
+    public $_resultList;
 
     public function getNameProject()
     {
@@ -51,6 +52,7 @@ class Task extends \app\models\bitrix\tasks\Task
         $commands['get_responsible'] = $bitrix->buildCommand('user.get', ['ID' => '$result[get_task][task][responsibleId]']);
         $commands['get_stages'] = $bitrix->buildCommand('task.stages.get', ['entityId' => '$result[get_task][task][groupId]']);
         $commands['get_checklist'] = $bitrix->buildCommand('task.checklistitem.getlist', ['taskId' => '$result[get_task][task][id]']);
+        $commands['get_result_task'] = $bitrix->buildCommand('tasks.task.result.list', ['taskId' => $id]);
 
         ['result' => ['result' => $response]] = $bitrix->batchRequest($commands);
 
@@ -72,6 +74,8 @@ class Task extends \app\models\bitrix\tasks\Task
             $model->_checklist = collect($model->_checklist)->transform(function ($item){
                 return collect($item)->sortBy('parentId');
             })->toArray();
+
+            $model->_resultList = $response['get_result_task'];
 
             return $model;
         }

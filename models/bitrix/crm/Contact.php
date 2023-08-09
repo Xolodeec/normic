@@ -8,6 +8,7 @@ use Tightenco\Collect\Support\Collection;
 use yii\base\Model;
 use function Symfony\Component\String\u;
 
+
 class Contact extends Model
 {
     public $id;
@@ -66,13 +67,17 @@ class Contact extends Model
         $model = new static();
         $bitrix = new Bitrix();
 
-        ['result' => $result] = $bitrix->request('crm.contact.list', [
-            'filter' => ['PHONE' => $phone],
-            'start' => -1,
-            'select' => collect(static::mapFields())->keys()->toArray(),
+        $commands['find_contact'] = $bitrix->buildCommand('crm.duplicate.findbycomm', [
+            'type' => 'PHONE',
+            'entity_type' => 'CONTACT',
+            'values' => [$phone],
         ]);
 
-        if(!empty($result) && static::collect($model, $result[0]))
+        $commands['get_contact'] = $bitrix->buildCommand('crm.contact.get', ['ID' => '$result[find_contact][CONTACT][0]']);
+
+        ['result' => ['result' => $response]] = $bitrix->batchRequest($commands);
+
+        if(isset($response['get_contact']) && static::collect($model, $response['get_contact']))
         {
             return $model;
         }

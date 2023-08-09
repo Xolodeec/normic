@@ -56,4 +56,32 @@ class TaskComment extends Model
 
         return [];
     }
+
+    public function getParsedMessage()
+    {
+        $configurator = new \s9e\TextFormatter\Configurator;
+
+        $configurator->BBCodes->addCustom(
+            '[P]{TEXT}[/P]',
+            '<p>{TEXT}</p>'
+        );
+
+        $configurator->BBCodes->addCustom(
+            '[USER]{TEXT}[/USER]',
+            '<span>{TEXT}</span>'
+        );
+
+        $configurator->BBCodes->addFromRepository('B');
+        $configurator->BBCodes->addFromRepository('I');
+        $configurator->BBCodes->addFromRepository('URL');
+
+
+        // Get an instance of the parser and the renderer
+        extract($configurator->finalize());
+
+        $xml  = $parser->parse($this->message);
+        $html = $renderer->render($xml);
+
+        return $html;
+    }
 }

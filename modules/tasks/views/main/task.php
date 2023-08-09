@@ -46,9 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 </footer>
                 <?php endif; ?>
             </div>
+            <style>
+                .task-result-desc{
+                    font-weight: 400 !important;
+                    margin-top: 15px;
+                }
+            </style>
+
+            <?php if(!empty($task->_resultList)) : ?>
+            <?php foreach ($task->_resultList as $index => $dataResult) : ?>
+            <div class="grey-wrapper mt-4 mb-4">
+                <p>Результат задачи от <?= date('d.m.Y', strtotime($dataResult['createdAt']))?></p>
+                <p class="task-result-desc"><?= $dataResult['formattedText'] ?></p>
+            </div>
+            <?php endforeach; ?>
+            <?php endif; ?>
+
             <div class="wrapper-comment">
                 <h4>Комментарии</h4>
-
                 <?php $form = ActiveForm::begin([
                         'fieldConfig' => [
                                 'template' => '{input}',
@@ -62,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php foreach ($comments as $index => $comment) : ?>
                     <div class="comment" id="<?= $comment->id ?>">
                         <header><?= $comment->authorName ?> (<?= date("d.m.Y H:i", strtotime($comment->date)) ?>)</header>
-                        <article><?= $comment->message ?></article>
+                        <article><?= $comment->getParsedMessage() ?></article>
                         <?php if($comment->authorId == 55) :?>
                         <footer>
                             <a href="javascript::void()" class="btn-edit-comment" data-bs-toggle="modal" data-bs-target="#editCommentModal">Редактировать</a> |

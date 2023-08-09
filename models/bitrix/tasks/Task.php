@@ -42,18 +42,38 @@ class Task extends Model
 
     public function getParsedDescription()
     {
-        $xml =  \s9e\TextFormatter\Bundles\Forum::parse($this->description);
+        $configurator = new \s9e\TextFormatter\Configurator;
 
-        return \s9e\TextFormatter\Bundles\Forum::render($xml);
+        $configurator->BBCodes->addCustom(
+            '[P]{TEXT}[/P]',
+            '<p>{TEXT}</p>'
+        );
+        
+        $configurator->BBCodes->addFromRepository('B');
+        $configurator->BBCodes->addFromRepository('I');
+        $configurator->BBCodes->addFromRepository('URL');
+
+
+        // Get an instance of the parser and the renderer
+        extract($configurator->finalize());
+
+        $xml  = $parser->parse($this->description);
+        $html = $renderer->render($xml);
+
+        return $html;
+
+        /*$xml =  \s9e\TextFormatter\Bundles\Forum::parse($this->description);
+
+        return \s9e\TextFormatter\Bundles\Forum::render($xml);*/
     }
 
     public function afterValidate()
     {
         parent::afterValidate();
 
-        if($this->status == 2) $this->statusName = 'Ждет выполнения';
+        if($this->status == 2) $this->statusName = 'В очереди';
         if($this->status == 3) $this->statusName = 'Выполняется';
-        if($this->status == 4) $this->statusName = 'Ожидает контроля';
+        if($this->status == 4) $this->statusName = 'Контроль';
         if($this->status == 5) $this->statusName = 'Завершена';
         if($this->status == 6) $this->statusName = 'Отложена';
 
