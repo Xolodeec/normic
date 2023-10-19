@@ -9,8 +9,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="toolbar mt-3">
+<div class="toolbar mt-3 mb-3">
     <?= Html::a('Создать задачу', '/tasks/main/create', ['class' => 'btn btn-success']) ?>
+</div>
+
+<div class="grey-wrapper mb-3">
+    <?php $form = ActiveForm::begin([
+        'id' => 'filter-form',
+        'method' => 'GET',
+        'action' => '/',
+        'fieldConfig' => [
+            'enableClientValidation' => false,
+        ],
+    ]) ?>
+    <div class="row">
+        <div class="col-auto">
+            <?= $form->field($model, 'createDate', ['options' => ['class' => 'mb-0']])->textInput(['type' => 'date']); ?>
+        </div>
+        <div class="col-auto">
+            <?= $form->field($model, 'statusId', ['options' => ['class' => 'mb-0']])->dropDownList(Yii::$app->params['bitrix']['status_task'], ['prompt' => 'Выберите статус']); ?>
+        </div>
+        <div class="col-auto">
+            <?= $form->field($model, 'projectId', ['options' => ['class' => 'mb-0']])->dropDownList(\yii\helpers\ArrayHelper::map($model->_projects, 'id', 'name'), ['prompt' => 'Выберите проект']); ?>
+        </div>
+        <div class="col-auto d-flex align-items-end">
+            <?= Html::submitButton('Фильтр', ['class' => 'btn btn-primary']) ?>
+        </div>
+    </div>
+    <?php $form::end(); ?>
 </div>
 
 <div class="wrapper-block mt-3">

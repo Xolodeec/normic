@@ -51,6 +51,11 @@ class TaskForm extends Model
         $this->contactId = $contactId;
     }
 
+    public function setProject($projectId)
+    {
+        $this->groupId = $projectId;
+    }
+
     public function getListProject()
     {
         $bitrix = new Bitrix();
@@ -73,7 +78,12 @@ class TaskForm extends Model
     {
         $task = new Task();
         $task->setAttributes($this->getAttributes());
-        $task->ufCrmTask = ["CO_{$this->companyId}", "C_{$this->contactId}"];
+        $task->ufCrmTask = ["CO_{$this->companyId}"];
+
+        if(!is_null($this->contactId))
+        {
+            $task->ufCrmTask[] = "C_{$this->contactId}";
+        }
 
         return $task->create()['result']['task']['id'];
     }
@@ -90,6 +100,7 @@ class TaskForm extends Model
     public function update()
     {
         $task = new Task();
+        $task->id = $this->id;
         $task->title = $this->title;
         $task->description = $this->description;
         $task->deadline = $this->deadline;

@@ -90,4 +90,7 @@ $(document).on('click', '.delete-comment', function (){
     });
 
     return false;
-})
+});
+
+
+

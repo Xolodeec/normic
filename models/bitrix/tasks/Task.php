@@ -6,6 +6,7 @@ use app\models\bitrix\Bitrix;
 use app\models\bitrix\traits\Collector;
 use Tightenco\Collect\Support\Collection;
 use yii\base\Model;
+use function Symfony\Component\String\u;
 
 class Task extends Model
 {
@@ -35,7 +36,7 @@ class Task extends Model
             [['ufCrmTask'], 'default', 'value' => []],
             [['createdDate'], 'safe'],
             ['deadline', 'filter', 'filter' => function($item){
-                return !empty($item) ? date("Y-m-d", strtotime($item)) : $item;
+                return !is_null($item) ? date("Y-m-d", strtotime($item)) : $item;
             }],
         ];
     }
@@ -60,11 +61,44 @@ class Task extends Model
         $xml  = $parser->parse($this->description);
         $html = $renderer->render($xml);
 
-        return $html;
+        return $this->parserAttachments($html);
 
         /*$xml =  \s9e\TextFormatter\Bundles\Forum::parse($this->description);
 
         return \s9e\TextFormatter\Bundles\Forum::render($xml);*/
+    }
+
+    public function parserAttachments($description)
+    {
+        $bitrix = new Bitrix();
+
+        $tempDescription = $description;
+
+        $substrCount = substr_count($description, 'DISK FILE');
+        $batch = [];
+
+        for ($i = 0; $i < $substrCount; $i++)
+        {
+            if(u($tempDescription)->containsAny('[DISK FILE ID='))
+            {
+                $tempDescription = u($tempDescription)->after('[DISK FILE ID=n');
+
+                $batch[] = $bitrix->buildCommand('disk.attachedObject.get', ['id' => $tempDescription->before(']')->toString()]);
+                $tempDescription = $tempDescription->after(']')->toString();
+            }
+        }
+
+        ['result' => ['result' => $response]] = $bitrix->batchRequest($batch);
+
+        if(!empty($response))
+        {
+            for ($i = 0; $i < $substrCount; $i++)
+            {
+                $description = u($description)->replace("[DISK FILE ID={$response[$i]['ID']}]", "<img src='{$response[$i]['DOWNLOAD_URL']}'>")->toString();
+            }
+        }
+
+        return $description;
     }
 
     public function afterValidate()

@@ -55,7 +55,7 @@ class Task extends \app\models\bitrix\tasks\Task
         $commands['get_result_task'] = $bitrix->buildCommand('tasks.task.result.list', ['taskId' => $id]);
 
         ['result' => ['result' => $response]] = $bitrix->batchRequest($commands);
-
+        
         if($model->load(['Task' => $response['get_task']['task']]) && $model->validate())
         {
             $project = new Project();

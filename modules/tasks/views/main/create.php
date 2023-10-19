@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'groupId', ['options' => ['class' => 'form-floating mb-3']])->dropDownList(\yii\helpers\ArrayHelper::map($model->getListProject(), 'id', 'name'), ['prompt' => 'Выбрать проект']) ?>
     <?= $form->field($model, 'description', ['options' => ['class' => 'mb-3']])->widget(\franciscomaya\sceditor\SCEditor::class, [
         'options' => [
-            'rows' => 8
+            'rows' => 24
         ],
         'clientOptions' => [
             'plugins' => 'bbcode',

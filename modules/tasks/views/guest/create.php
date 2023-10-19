@@ -3,7 +3,7 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = "Редактирование задачи";
+$this->title = "Создать задачу";
 
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -19,7 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?= $form->field($model, 'title', ['options' => ['class' => 'form-floating mb-3']])->textInput() ?>
-    <?= $form->field($model, 'groupId', ['options' => ['class' => 'form-floating mb-3']])->dropDownList(\yii\helpers\ArrayHelper::map($model->getListProject(), 'id', 'name'), ['prompt' => 'Выбрать проект']) ?>
     <?= $form->field($model, 'description', ['options' => ['class' => 'mb-3']])->widget(\franciscomaya\sceditor\SCEditor::class, [
         'options' => [
             'rows' => 24
@@ -31,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'deadline', ['options' => ['class' => 'form-floating mb-3']])->textInput(['type' => 'date']) ?>
 
-    <?= Html::submitButton('Сохранить изменения', ['class' => ['btn btn-success']]) ?>
+    <?= Html::submitButton('Создать', ['class' => ['btn btn-primary']]) ?>
 
     <?php $form::end() ?>
 </div>

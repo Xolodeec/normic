@@ -13,6 +13,7 @@ use yii\base\BaseObject;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
+use function Symfony\Component\String\u;
 
 class MainController extends Controller
 {
@@ -37,7 +38,15 @@ class MainController extends Controller
 
     public function actionIndex()
     {
-        $model = FilterForm::generate(\Yii::$app->user->identity->company->id);
+        $model = new FilterForm();
+        $model->setCompanyId(\Yii::$app->user->identity->company->id);
+
+        if(\Yii::$app->request->isGet && $model->load(\Yii::$app->request->get()))
+        {
+            $model->validate();
+        }
+
+        $model->filter();
 
         return $this->render('index', ['model' => $model]);
     }
@@ -121,7 +130,7 @@ class MainController extends Controller
             if(\Yii::$app->request->isPost && $model->load(\Yii::$app->request->post()) && $model->validate())
             {
                 $model->update();
-
+                
                 return $this->redirect(Url::to(['task', 'id' => $model->id]));
             }
 

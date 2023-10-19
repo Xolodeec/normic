@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li><b>Проект:</b> <?= $task->getNameProject()?></li>
                     <li><b>Статус:</b> <span class="bg-blue" style="background: #<?= $task->statusColor ?>; color: #fff; font-size: 12px;"><?= $task->statusName ?><span></li>
                     <li><b>Стадия:</b> <span class="bg-blue" style="background: #<?= $task->getStage()->color ?>; color: #fff; font-size: 12px;"><?= $task->getStageName() ?><span></li>
-                    <li><b>Крайний срок:</b> <?= date("d.m.Y", strtotime($task->deadline)) ?></li>
+                    <li><b>Крайний срок:</b> <?= is_null($task->deadline) ? 'Не задан' : date("d.m.Y", strtotime($task->deadline)) ?></li>
                     <li><b>Ответственный:</b> <?= "{$task->responsible->lastName} {$task->responsible->name}" ?></li>
                 </ul>
             </div>

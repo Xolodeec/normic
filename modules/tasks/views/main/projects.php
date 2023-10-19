@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if(!empty($projects)) : ?>
             <?php foreach($projects as $index => $project) : ?>
                 <tr>
-                    <td><?= $project->name ?></td>
+                    <td><a href="<?= "/?" . http_build_query(['FilterForm' => ['projectId' => $project->id]]) ?>"><?= $project->name ?></a></td>
                     <td><?= date('d.m.Y H:i', strtotime($project->createdDate)) ?></td>
                 </tr>
             <?php endforeach; ?>
